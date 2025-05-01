@@ -3,6 +3,8 @@
 :root {
   --background: #ffffff;
   --foreground: #ffffff;
+  --font-poppins: "Poppins", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,5 +20,14 @@ body {
 }
 
 .montserrat {
+  font-family: var(--font-montserrat), sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-montserrat), sans-serif;
 }

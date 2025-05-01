@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { BsCart4 } from "react-icons/bs";
+import { useCart } from "@/context/CartContext";
+import toast from "react-hot-toast"; // NEW: Import toast
 
 export default function ProductGrid() {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
   const router = useRouter();
+  const { addToCart } = useCart();
 
   useEffect(() => {
     async function fetchProducts() {
@@ -32,9 +35,32 @@ export default function ProductGrid() {
     fetchProducts();
   }, []);
 
+  // NEW: Navigate to product details
   const handleProductClick = (id) => {
     console.log("Navigating to product:", id);
     router.push(`/product/${id}`);
+  };
+
+  // NEW: Updated add to cart with navigation option
+  const handleAddToCart = (product, e) => {
+    e.stopPropagation(); // NEW: Prevent parent click
+    e.preventDefault(); // NEW: Prevent default behavior
+    console.log("BsCart4 clicked, adding to cart:", product.name);
+    addToCart(product);
+    toast.success(
+      (t) => (
+        <span>
+          {product.name} added to cart!
+          <button
+            className="ml-2 text-gray-800 underline text-xs"
+            onClick={() => router.push("/cart")}
+          >
+            View Cart
+          </button>
+        </span>
+      ),
+      { duration: 4000 }
+    );
   };
 
   if (error)
@@ -42,22 +68,22 @@ export default function ProductGrid() {
 
   return (
     <section className="w-full flex items-center justify-center flex-col text-start py-10">
-      <div className="w-[70%] mb-6 flex items-center justify-start">
-        <h2 className="text-2xl font-bold">JUST IN</h2>
+      <div className="w-[70%] md:px-0 px-2 mb-6 flex items-center justify-start">
+        <h2 className="text-2xl font-bold text-gray-800">JUST IN</h2>
+        {/* NEW: Match Navbar's text-gray-800 */}
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 px-2 md:px-0 md:gap-6">
         {products.map((product) => {
           const imageSrc =
             typeof product.image === "string" && product.image.trim() !== ""
               ? product.image
               : "/images/placeholder.jpg";
           return (
-            <div
-              key={product._id}
-              className="text-start cursor-pointer"
-              onClick={() => handleProductClick(product._id)}
-            >
-              <div className="relative group">
+            <div key={product._id} className="text-start cursor-pointer">
+              <div
+                className="relative group"
+                onClick={() => handleProductClick(product._id)}
+              >
                 <Image
                   src={imageSrc}
                   alt={product.name}
@@ -81,18 +107,31 @@ export default function ProductGrid() {
                     )
                   }
                 />
-                <button className="absolute inset-0 flex items-center justify-center transition-opacity scale-0 group-hover:scale-100 duration-700 group-hover:opacity-100">
+                <button
+                  className="absolute inset-0 flex items-center justify-center transition-opacity scale-0 group-hover:scale-100 duration-700 group-hover:opacity-100 z-10"
+                  onClick={(e) => handleAddToCart(product, e)}
+                >
                   <span className="bg-white w-10 h-10 flex items-center justify-center cursor-pointer">
-                    <BsCart4 className="text-black text-2xl" />
+                    <BsCart4 className="text-gray-800 text-2xl" />
+                    {/* NEW: Match Navbar's text-gray-800 */}
                   </span>
                 </button>
               </div>
-              <h3 className="font-semibold text-sm mt-2">{product.name}</h3>
-              <p className="text-gray-500 text-[13px] md:pt-1">
-                {typeof product.price === "number"
-                  ? `₦${product.price.toLocaleString()}`
-                  : product.price}
-              </p>
+              <div
+                className="mt-2"
+                onClick={() => handleProductClick(product._id)}
+              >
+                <h3 className="font-semibold text-xs text-gray-800">
+                  {/* NEW: text-xs, text-gray-800 */}
+                  {product.name}
+                </h3>
+                <p className="text-gray-500 text-xs md:pt-1">
+                  {/* NEW: text-xs */}
+                  {typeof product.price === "number"
+                    ? `₦${product.price.toLocaleString()}`
+                    : product.price}
+                </p>
+              </div>
             </div>
           );
         })}

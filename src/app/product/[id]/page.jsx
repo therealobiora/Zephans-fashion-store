@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { useCart } from "@/context/CartContext";
+import toast from "react-hot-toast";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -12,7 +14,9 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
+  const { addToCart } = useCart(); // NEW: Import useCart
 
+  // NEW: Fetch product by ID
   useEffect(() => {
     async function fetchProduct() {
       try {
@@ -25,6 +29,7 @@ export default function ProductDetail() {
         setProduct(data);
         setLoading(false);
       } catch (err) {
+        console.error("ProductDetail error:", err);
         setError(err.message);
         setLoading(false);
       }
@@ -32,8 +37,42 @@ export default function ProductDetail() {
     if (id) fetchProduct();
   }, [id]);
 
+  // NEW: Handle back navigation
   const handleBack = () => {
     router.push("/");
+  };
+
+  // NEW: Handle Add to Cart
+  const handleAddToCart = () => {
+    if (product.sizes && product.sizes.length > 0 && !selectedSize) {
+      toast.error("Please select a size", { style: { color: "#DC2626" } });
+      return;
+    }
+    addToCart({ ...product, selectedSize });
+    toast.success(
+      (t) => (
+        <span>
+          {product.name} added to cart!
+          <button
+            className="ml-2 text-gray-800 underline text-sm"
+            onClick={() => router.push("/cart")}
+          >
+            View Cart
+          </button>
+        </span>
+      ),
+      { duration: 4000 }
+    );
+  };
+
+  // NEW: Handle Buy Now
+  const handleBuyNow = () => {
+    if (product.sizes && product.sizes.length > 0 && !selectedSize) {
+      toast.error("Please select a size", { style: { color: "#DC2626" } });
+      return;
+    }
+    addToCart({ ...product, selectedSize });
+    router.push("/checkout");
   };
 
   if (loading)
@@ -61,9 +100,10 @@ export default function ProductDetail() {
         {/* Back Button */}
         <button
           onClick={handleBack}
-          className="mb-6 flex items-center text-gray-700 hover:text-black transition-colors"
+          className="mb-6 flex items-center text-gray-700 hover:text-gray-800 transition-colors"
         >
           <ArrowLeft className="w-5 h-5 mr-2" />
+          Back
         </button>
 
         {/* Product Grid */}
@@ -81,7 +121,8 @@ export default function ProductDetail() {
 
           {/* Details Section */}
           <div className="flex flex-col gap-6">
-            <h1 className="md:text-4xl text-2xl font-bold text-gray-900">
+            <h1 className="md:text-4xl text-2xl font-bold text-gray-800">
+              {/* NEW: Use text-gray-800 for consistency */}
               {product.name}
             </h1>
             <p className="md:text-lg text-md font-semibold text-gray-800">
@@ -89,13 +130,15 @@ export default function ProductDetail() {
                 ? `₦${product.price.toLocaleString()}`
                 : product.price}
             </p>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 text-sm leading-relaxed">
+              {/* NEW: Use text-sm */}
               {product.description}
             </p>
 
             {/* Sizes */}
             <div>
-              <h3 className="text-md font-semibold text-gray-900 mb-2">
+              <h3 className="text-sm font-semibold text-gray-800 mb-2">
+                {/* NEW: Use text-sm */}
                 Sizes:
               </h3>
               <div className="flex gap-2">
@@ -105,8 +148,8 @@ export default function ProductDetail() {
                     onClick={() => setSelectedSize(size)}
                     className={`px-4 py-2 border rounded-md text-sm font-medium transition-colors ${
                       selectedSize === size
-                        ? "bg-black text-white border-black"
-                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                        ? "bg-gray-800 text-white border-gray-800"
+                        : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
                     }`}
                   >
                     {size}
@@ -117,10 +160,10 @@ export default function ProductDetail() {
 
             {/* Details */}
             <div>
-              <h3 className="text-md font-semibold text-gray-900 mb-2">
+              <h3 className="text-sm font-semibold text-gray-800 mb-2">
                 Details:
               </h3>
-              <ul className="text-gray-600 md:space-y-1">
+              <ul className="text-gray-600 space-y-1">
                 <li className="text-sm">Fabric: {product.details.fabric}</li>
                 <li className="text-sm">Color: {product.details.color}</li>
                 <li className="text-sm">Care: {product.details.care}</li>
@@ -128,10 +171,23 @@ export default function ProductDetail() {
               </ul>
             </div>
 
-            {/* Add to Cart Button */}
-            <button className="w-full md:w-2/3 bg-black text-white py-3 px-6 rounded-md font-medium hover:bg-gray-900 transition-colors">
-              Add to Cart
-            </button>
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={handleAddToCart}
+                className="w-full sm:w-1/2 bg-gray-800 text-white py-3 px-6 rounded-md font-medium hover:bg-black transition-colors text-sm"
+              >
+                {/* NEW: Updated to useCart, text-sm */}
+                Add to Cart
+              </button>
+              <button
+                onClick={handleBuyNow}
+                className="w-full sm:w-1/2 bg-gray-800 text-white py-3 px-6 rounded-md font-medium hover:bg-black transition-colors text-sm"
+              >
+                {/* NEW: Buy Now button */}
+                Buy Now
+              </button>
+            </div>
           </div>
         </div>
       </div>

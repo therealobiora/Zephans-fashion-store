@@ -30,7 +30,7 @@ export default function HeroSection() {
 
   return (
     <section className="md:w-[98vw] w-[95vw] mx-auto py-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 md:h-[600px]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 h-[500px] gap-4 md:h-[600px]">
         {products.length > 0 ? (
           products.map((product) => {
             const imageSrc =
@@ -50,7 +50,7 @@ export default function HeroSection() {
                   objectFit="cover"
                   className="w-full h-full transition-transform duration-700 ease-in-out group-hover:scale-105 group-hover:brightness-75"
                 />
-                <div className="absolute bottom-0 right-0 bg-white px-3 py-1 text-black font-bold text-sm transition-opacity duration-700 group-hover:opacity-100">
+                <div className="md:absolute md:bottom-0 md:right-0 flex justify-center items-center bg-white md:px-3 md:py-1 text-black font-bold text-sm transition-opacity duration-700 group-hover:opacity-100">
                   {product.name.toUpperCase()}
                 </div>
               </a>

@@ -30,7 +30,7 @@ export default function HeroSection() {
 
   return (
     <section className="md:w-[98vw] w-[95vw] mx-auto py-4">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 h-[500px] gap-4 md:h-[600px]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 h-[600px] gap-4 md:h-[600px]">
         {products.length > 0 ? (
           products.map((product) => {
             const imageSrc =

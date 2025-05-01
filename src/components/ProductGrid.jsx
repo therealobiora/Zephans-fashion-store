@@ -68,7 +68,7 @@ export default function ProductGrid() {
 
   return (
     <section className="w-full flex items-center justify-center flex-col text-start py-10">
-      <div className="w-[70%] md:px-0 px-2 mb-6 flex items-center justify-start">
+      <div className="md:w-[70%] w-[95%] md:px-0 px-2 mb-6 flex md:items-center items-start justify-start">
         <h2 className="text-2xl font-bold text-gray-800">JUST IN</h2>
         {/* NEW: Match Navbar's text-gray-800 */}
       </div>

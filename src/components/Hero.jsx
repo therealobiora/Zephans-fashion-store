@@ -51,7 +51,8 @@ export default function HeroSection() {
                   className="w-full h-full transition-transform duration-700 ease-in-out group-hover:scale-105 group-hover:brightness-75"
                 />
                 <div className="md:absolute md:bottom-0 md:right-0 flex justify-center items-center bg-white md:px-3 md:py-1 text-black font-bold text-sm transition-opacity duration-700 group-hover:opacity-100">
-                  {product.name.toUpperCase()}
+                  {(product.name && product.name.toUpperCase()) ||
+                    "Unknown Product"}
                 </div>
               </a>
             );

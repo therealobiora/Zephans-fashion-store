@@ -41,16 +41,16 @@ export default function HeroSection() {
               <a
                 key={product._id}
                 href={`/categories/${product.category}`}
-                className="relative w-full h-full overflow-hidden group"
+                className="relative w-full h-full overflow-hidden md:group"
               >
                 <Image
                   src={imageSrc}
                   alt={product.name}
                   layout="fill"
                   objectFit="cover"
-                  className="w-full h-full transition-transform duration-700 ease-in-out group-hover:scale-105 group-hover:brightness-75"
+                  className="w-full h-full md:transition-transform md:duration-700 md:ease-in-out md:group-hover:scale-105 md:group-hover:brightness-75"
                 />
-                <div className="md:absolute md:bottom-0 md:right-0 flex justify-center items-center bg-white md:px-3 md:py-1 text-black font-bold text-sm transition-opacity duration-700 group-hover:opacity-100">
+                <div className="absolute bottom-0 right-0 flex justify-center items-center bg-white px-3 py-1 text-black font-bold text-sm md:transition-opacity md:duration-700 md:group-hover:opacity-100">
                   {(product.name && product.name.toUpperCase()) ||
                     "Unknown Product"}
                 </div>

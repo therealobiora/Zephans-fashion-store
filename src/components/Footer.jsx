@@ -3,13 +3,13 @@ export default function Footer() {
     <footer className="bg-black text-white py-16 px-5 md:px-16">
       <div className="max-w-7xl md:max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
         {/* Brand Info */}
-        <div className="w-[18vw]">
+        <div className="md:w-[18vw] w-[95%]">
           <img
             src="/images/zephans-logo-white-.jpg"
             className="w-[200px]"
             alt="Logo"
           />
-          <p className="text-white mt-2 text-[13px]">
+          <p className="text-white mt-2 md:text-[13px] text-base">
             We are a ready-to-wear brand for fashion-forward women around the
             world. All pieces are made with ❤️ in Africa. Straight out of Lagos,
             Nigeria.
@@ -32,7 +32,7 @@ export default function Footer() {
         </div>
 
         {/* Quick Links & Categories */}
-        <div className="grid grid-cols-1 gap-5 ml-4">
+        <div className="grid grid-cols-1 gap-5 md:ml-4 ml-1">
           <div>
             <h3 className="font-semibold text-white">QUICK LINKS</h3>
             <ul className="text-[#f6f6f6] space-y-2 mt-2">

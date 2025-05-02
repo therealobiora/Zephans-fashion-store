@@ -89,6 +89,7 @@ export default function ProductGrid() {
                   alt={product.name || "Product Image"}
                   width={130}
                   height={50}
+                  unoptimized
                   className="w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105 group-hover:brightness-75"
                   onError={(e) =>
                     console.log(

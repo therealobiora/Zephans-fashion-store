@@ -47,6 +47,7 @@ export default function HeroSection() {
                   src={imageSrc}
                   alt={product.name}
                   layout="fill"
+                  unoptimized
                   objectFit="cover"
                   className="w-full h-full md:transition-transform md:duration-700 md:ease-in-out md:group-hover:scale-105 md:group-hover:brightness-75"
                 />

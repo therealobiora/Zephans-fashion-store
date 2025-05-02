@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import Product from "../models/Product.js";
 
 const MONGODB_URI =
-  "mongodb://admin:Obiora511@localhost:27017/admin?authSource=admin";
+  "mongodb+srv://fashion-store:Fashion2025@webclass.gwjrh.mongodb.net/fashion-store?retryWrites=true&w=majority&appName=webclass";
 
 const updatedProducts = [
   {

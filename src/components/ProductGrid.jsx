@@ -72,7 +72,7 @@ export default function ProductGrid() {
         <h2 className="text-2xl font-bold text-gray-800">JUST IN</h2>
         {/* NEW: Match Navbar's text-gray-800 */}
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 px-2 md:px-0 md:gap-6 border-2 border-red-700">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 px-2 md:px-0 md:gap-6 md:w-[70%] w-[95%]">
         {products.map((product) => {
           const imageSrc =
             typeof product.image === "string" && product.image.trim() !== ""

@@ -61,7 +61,7 @@ import connectDB from "@/lib/mongodb";
 import Product from "@/models/Product";
 
 export default async function handler(req, res) {
-  // NEW: Log handler start
+  //Log handler start
   console.log("[API/products/[id]] START:", {
     method: req.method,
     query: req.query,
@@ -71,33 +71,33 @@ export default async function handler(req, res) {
   const { id } = req.query;
 
   if (req.method !== "GET") {
-    // NEW: Log invalid method
+    // Log invalid method
     console.log("[API/products/[id]] Invalid method:", req.method);
     return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    // NEW: Log connectDB call
+    // Log connectDB call
     console.log("[API/products/[id]] Calling connectDB");
     await connectDB();
-    // NEW: Log connection success
+    // Log connection success
     console.log("[API/products/[id]] connectDB succeeded");
 
-    // NEW: Log query
+    // Log query
     console.log("[API/products/[id]] Find product ID:", id);
     const product = await Product.findById(id);
 
     if (!product) {
-      // NEW: Log not found
+      // Log not found
       console.log("[API/products/[id]] Product not found:", id);
       return res.status(404).json({ error: "Product not found" });
     }
 
-    // NEW: Log result
+    // Log result
     console.log("[API/products/[id]] Product found:", product._id);
     return res.status(200).json(product);
   } catch (error) {
-    // NEW: Log error
+    // Log error
     console.error("[API/products/[id]] Query FAILED:", {
       message: error.message,
       stack: error.stack,

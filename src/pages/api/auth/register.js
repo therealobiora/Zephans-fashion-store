@@ -41,45 +41,98 @@
 //   }
 // }
 
-import connectDB from "@/lib/mongodb";
-import User from "@/models/User";
-import Profile from "@/models/Profile";
+// import connectDB from "@/lib/mongodb";
+// import User from "@/models/User";
+// import Profile from "@/models/Profile";
+// import bcrypt from "bcrypt";
+// import jwt from "jsonwebtoken";
+
+// export default async function handler(req, res) {
+//   if (req.method !== "POST") {
+//     return res.status(405).json({ message: "Method not allowed" });
+//   }
+
+//   const { name, email, password } = req.body;
+
+//   if (!name || !email || !password) {
+//     return res.status(400).json({ message: "All fields are required" });
+//   }
+
+//   try {
+//     await connectDB();
+
+//     const existingUser = await User.findOne({ email });
+//     if (existingUser) {
+//       return res.status(400).json({ message: "Email already exists" });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     const user = new User({ email, password: hashedPassword });
+//     await user.save();
+
+//     const profile = new Profile({ userId: user._id, name, email });
+//     await profile.save();
+
+//     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+//       expiresIn: "1h",
+//     });
+
+//     res.status(201).json({ token, message: "User registered successfully" });
+//   } catch (error) {
+//     console.error("Register error:", error);
+//     res.status(500).json({ message: "Server error" });
+//   }
+// }
+
+
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import connectMongoDB from "@/lib/mongodb";
+import User from "@/models/User";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const { name, email, password } = req.body;
-
-  if (!name || !email || !password) {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
   try {
-    await connectDB();
+    const { name, email, password } = req.body;
 
+    // Validate input
+    if (!name || !email || !password) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+
+    await connectMongoDB();
+
+    // Check for existing user
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already exists" });
     }
 
+    // Hash password and create user
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashedPassword });
+    const user = new User({ email, password: hashedPassword, name });
     await user.save();
 
-    const profile = new Profile({ userId: user._id, name, email });
-    await profile.save();
+    // Generate JWT
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+    return res.status(201).json({
+      token,
+      message: "User registered successfully",
+      name,
+      email,
     });
-
-    res.status(201).json({ token, message: "User registered successfully" });
   } catch (error) {
     console.error("Register error:", error);
-    res.status(500).json({ message: "Server error" });
+    if (error.name === "ValidationError") {
+      return res.status(400).json({ message: "Invalid user data" });
+    }
+    if (error.code === 11000) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+    return res.status(500).json({ message: "Server error" });
   }
 }

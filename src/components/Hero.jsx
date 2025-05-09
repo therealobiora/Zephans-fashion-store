@@ -2,10 +2,12 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export default function HeroSection() {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchProducts() {
@@ -25,6 +27,11 @@ export default function HeroSection() {
     fetchProducts();
   }, []);
 
+  const handleProductClick = (id) => {
+    console.log("Navigating to product:", id);
+    router.push(`/product/${id}`);
+  };
+
   if (error)
     return <div className="text-red-600 text-center py-10">Error: {error}</div>;
 
@@ -38,24 +45,24 @@ export default function HeroSection() {
                 ? product.image
                 : "/images/placeholder.jpg";
             return (
-              <a
+              <div
                 key={product._id}
-                href={`/categories/${product.category}`}
-                className="relative w-full h-full overflow-hidden md:group"
+                onClick={() => handleProductClick(product._id)}
+                className="relative w-full h-full overflow-hidden md:group cursor-pointer"
               >
                 <Image
                   src={imageSrc}
-                  alt={product.name}
+                  alt={product.name || "Product image"}
                   layout="fill"
                   unoptimized
                   objectFit="cover"
-                  className="w-full h-full md:transition-transform md:duration-700 md:ease-in-out md:group-hover:scale-105 md:group-hover:brightness-75"
+                  className="w-full h-full md:transition-transform md:duration-700 md:ease-in-out md:group-hover:scale-105 md:group-hover:brightness-75 pointer-events-none"
                 />
                 <div className="absolute bottom-0 right-0 flex justify-center items-center bg-white px-3 py-1 text-black font-bold text-sm md:transition-opacity md:duration-700 md:group-hover:opacity-100">
                   {(product.name && product.name.toUpperCase()) ||
                     "Unknown Product"}
                 </div>
-              </a>
+              </div>
             );
           })
         ) : (

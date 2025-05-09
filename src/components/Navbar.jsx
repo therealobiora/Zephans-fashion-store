@@ -1,34 +1,43 @@
 "use client";
 
-import { useState, useEffect } from "react"; // NEW: Add useEffect
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FiShoppingCart, FiSearch } from "react-icons/fi";
 import { IoPersonOutline } from "react-icons/io5";
 import { PiCaretDownThin } from "react-icons/pi";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useCart } from "@/context/CartContext";
-import toast from "react-hot-toast"; // NEW: Add toast
+import toast from "react-hot-toast";
 
 export default function Navbar() {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // NEW: Track login state
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { cart } = useCart();
+  const [itemCount, setItemCount] = useState(0); // Client-side count
 
-  // NEW: Check login status
+  // Check login status
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("token");
+      setIsLoggedIn(!!token);
+    }
   }, []);
 
-  // NEW: Handle logout
+  // Compute cart item count on client-side
+  useEffect(() => {
+    setItemCount(cart.reduce((sum, item) => sum + item.quantity, 0));
+  }, [cart]);
+
+  // Handle logout
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token");
+    }
     setIsLoggedIn(false);
     toast.success("Logged out successfully");
   };
 
-  const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const toggleShopMenu = () => setIsShopOpen(!isShopOpen);
 
   return (
@@ -137,7 +146,7 @@ export default function Navbar() {
             <Link href="/cart" className="relative">
               <FiShoppingCart className="text-lg cursor-pointer text-gray-800" />
               {itemCount > 0 && (
-                <span className="absolute -top-2 -right-4 bg-red-600 text-white text-xs rounded-full px-2">
+                <span className="absolute -top-2.5 -right-3 bg-gray-700 text-white text-xs rounded-full px-1.5">
                   {itemCount}
                 </span>
               )}
@@ -288,7 +297,7 @@ export default function Navbar() {
               <Link href="/cart" className="relative">
                 <FiShoppingCart className="text-lg cursor-pointer text-gray-800" />
                 {itemCount > 0 && (
-                  <span className="absolute -top-2 -right-4 bg-red-600 text-white text-xs rounded-full px-2">
+                  <span className="absolute -top-2 -right-4 bg-gray-700 text-white text-xs rounded-full px-2">
                     {itemCount}
                   </span>
                 )}

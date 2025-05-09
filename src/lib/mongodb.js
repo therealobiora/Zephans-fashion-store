@@ -37,9 +37,11 @@
 
 // export default connectDB;
 
+
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_DB = process.env.MONGODB_DB; // Optional: for explicit database name
 
 if (!MONGODB_URI) {
   throw new Error("Please define MONGODB_URI in .env.local");
@@ -59,9 +61,13 @@ async function connectDB() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      dbName: MONGODB_DB || undefined, // Use MONGODB_DB if defined, else rely on URI
     };
     cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => {
-      console.log("✅ MongoDB connected to:", mongoose.connection.host);
+      console.log("✅ MongoDB connected to:", {
+        host: mongoose.connection.host,
+        database: mongoose.connection.db.namespace,
+      });
       return mongoose;
     });
   }

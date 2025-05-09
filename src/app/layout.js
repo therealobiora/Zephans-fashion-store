@@ -3,7 +3,7 @@ import { Toaster } from "react-hot-toast"; // NEW: Import Toaster
 import { CartProvider } from "@/context/CartContext"; // NEW: Import CartProvider
 import "./globals.css";
 
-// NEW: Configure Poppins font
+// Poppins font Configuration
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -11,7 +11,7 @@ const poppins = Poppins({
   display: "swap",
 });
 
-// NEW: Configure Montserrat font
+// Montserrat font Configuration
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -23,7 +23,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${poppins.variable} ${montserrat.variable}`}>
       <body className="bg-white text-black">
-        {/* NEW: Remove poppins class, apply fonts via CSS */}
         <CartProvider>
           {children}
           <Toaster position="top-right" />

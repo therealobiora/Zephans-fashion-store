@@ -11,25 +11,25 @@ export default function Checkout() {
     email: "",
     address: "",
     phone: "",
-    paymentMethod: "card", // NEW: Default to card
+    paymentMethod: "card",
     cardNumber: "",
     expiry: "",
     cvv: "",
   });
-  const { cart, getTotal, clearCart } = useCart(); // NEW: Add clearCart
+  const { cart, getTotal, clearCart } = useCart();
   const router = useRouter();
 
-  // NEW: Handle form input changes
+  // Handle form input changes
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // NEW: Handle payment method change
+  // Handle payment method change
   const handlePaymentMethodChange = (method) => {
     setForm({ ...form, paymentMethod: method });
   };
 
-  // NEW: Handle form submission
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.address || !form.phone) {
@@ -48,7 +48,7 @@ export default function Checkout() {
       return;
     }
     toast.success("Order placed successfully!");
-    clearCart(); // NEW: Clear cart
+    clearCart(); // Clear cart
     router.push("/");
   };
 
@@ -109,7 +109,7 @@ export default function Checkout() {
               required
             />
           </div>
-          {/* NEW: Payment Method */}
+          {/* Payment Method */}
           <div>
             <h3 className="text-xs font-medium text-gray-800 mb-2">
               Payment Method
@@ -139,7 +139,7 @@ export default function Checkout() {
               </label>
             </div>
           </div>
-          {/* NEW: Card Details */}
+          {/* Card Details */}
           {form.paymentMethod === "card" && (
             <div className="flex flex-col gap-4">
               <div>

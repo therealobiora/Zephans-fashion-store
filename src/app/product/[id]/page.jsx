@@ -14,9 +14,9 @@ export default function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
-  const { addToCart } = useCart(); // NEW: Import useCart
+  const { addToCart } = useCart();
 
-  // NEW: Fetch product by ID
+  // Fetch product by ID
   useEffect(() => {
     async function fetchProduct() {
       try {
@@ -37,12 +37,12 @@ export default function ProductDetail() {
     if (id) fetchProduct();
   }, [id]);
 
-  // NEW: Handle back navigation
+  // Handle back navigation
   const handleBack = () => {
     router.push("/");
   };
 
-  // NEW: Handle Add to Cart
+  // Handle Add to Cart
   const handleAddToCart = () => {
     if (product.sizes && product.sizes.length > 0 && !selectedSize) {
       toast.error("Please select a size", { style: { color: "#DC2626" } });
@@ -54,7 +54,7 @@ export default function ProductDetail() {
         <span>
           {product.name} added to cart!
           <button
-            className="ml-2 text-gray-800 underline text-sm"
+            className="ml-2 text-gray-800 underline text-sm cursor-pointer"
             onClick={() => router.push("/cart")}
           >
             View Cart
@@ -65,7 +65,7 @@ export default function ProductDetail() {
     );
   };
 
-  // NEW: Handle Buy Now
+  // Handle Buy Now
   const handleBuyNow = () => {
     if (product.sizes && product.sizes.length > 0 && !selectedSize) {
       toast.error("Please select a size", { style: { color: "#DC2626" } });
@@ -100,7 +100,7 @@ export default function ProductDetail() {
         {/* Back Button */}
         <button
           onClick={handleBack}
-          className="mb-6 flex items-center text-gray-700 hover:text-gray-800 transition-colors"
+          className="mb-6 flex items-center text-gray-700 hover:text-gray-800 transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-5 h-5 mr-2" />
           Back
@@ -122,7 +122,6 @@ export default function ProductDetail() {
           {/* Details Section */}
           <div className="flex flex-col gap-6">
             <h1 className="md:text-4xl text-2xl font-bold text-gray-800">
-              {/* NEW: Use text-gray-800 for consistency */}
               {product.name}
             </h1>
             <p className="md:text-lg text-md font-semibold text-gray-800">
@@ -131,14 +130,12 @@ export default function ProductDetail() {
                 : product.price}
             </p>
             <p className="text-gray-600 text-sm leading-relaxed">
-              {/* NEW: Use text-sm */}
               {product.description}
             </p>
 
             {/* Sizes */}
             <div>
               <h3 className="text-sm font-semibold text-gray-800 mb-2">
-                {/* NEW: Use text-sm */}
                 Sizes:
               </h3>
               <div className="flex gap-2">
@@ -146,7 +143,7 @@ export default function ProductDetail() {
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
-                    className={`px-4 py-2 border rounded-md text-sm font-medium transition-colors ${
+                    className={`px-4 py-2 border rounded-md text-sm font-medium transition-colors cursor-pointer ${
                       selectedSize === size
                         ? "bg-gray-800 text-white border-gray-800"
                         : "bg-white text-gray-800 border-gray-300 hover:bg-gray-100"
@@ -175,16 +172,14 @@ export default function ProductDetail() {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={handleAddToCart}
-                className="w-full sm:w-1/2 bg-gray-800 text-white py-3 px-6 rounded-md font-medium hover:bg-black transition-colors text-sm"
+                className="w-full sm:w-1/2 bg-gray-800 text-white py-3 px-6 rounded-md cursor-pointer font-medium hover:bg-black transition-colors text-sm"
               >
-                {/* NEW: Updated to useCart, text-sm */}
                 Add to Cart
               </button>
               <button
                 onClick={handleBuyNow}
-                className="w-full sm:w-1/2 bg-gray-800 text-white py-3 px-6 rounded-md font-medium hover:bg-black transition-colors text-sm"
+                className="w-full sm:w-1/2 bg-gray-800 text-white py-3 px-6 rounded-md cursor-pointer font-medium hover:bg-black transition-colors text-sm"
               >
-                {/* NEW: Buy Now button */}
                 Buy Now
               </button>
             </div>

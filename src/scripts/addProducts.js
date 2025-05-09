@@ -51,9 +51,9 @@ const updatedProducts = [
     },
   },
   {
-    name: "Red Skirt Set",
+    name: "LOUIE DRESS",
     price: 15000,
-    image: "/images/LEKESHOTIT-37.jpg",
+    image: "/images/Product1.jpeg",
     category: "Skirt Sets",
     stock: 1,
     sizes: ["UK 8", "UK 10", "UK 12", "UK 14", "UK 16"],
@@ -83,7 +83,7 @@ const updatedProducts = [
   {
     name: "Floral Summer Dress",
     price: 17000,
-    image: "/images/Product1.jpeg",
+    image: "/images/LEKESHOTIT-14.jpeg",
     category: "Dresses",
     stock: 1,
     sizes: ["UK 8", "UK 10", "UK 12", "UK 14", "UK 16"],

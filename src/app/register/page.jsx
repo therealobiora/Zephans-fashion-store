@@ -43,6 +43,8 @@ export default function Register() {
       if (!res.ok) {
         throw new Error(data.message || "Registration failed");
       }
+      // Store token for potential auto-login
+      localStorage.setItem("token", data.token);
       toast.success("Registered successfully! Please login.");
       router.push("/login");
     } catch (err) {
@@ -51,12 +53,12 @@ export default function Register() {
   };
 
   return (
-    <section className="w-[95vw] mx-auto py-10 flex justify-center">
+    <section className="w-[95vw] min-w-[300px] mx-auto py-6 sm:py-10 flex justify-center">
       <div className="w-full max-w-md">
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Register</h1>
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Register</h1>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <label className="block text-xs font-medium text-gray-800">
+            <label className="block text-xs sm:text-sm font-medium text-gray-800">
               Full Name
             </label>
             <input
@@ -64,12 +66,12 @@ export default function Register() {
               name="name"
               value={form.name}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-200 rounded text-xs text-gray-800"
+              className="w-full p-2 sm:p-3 border border-gray-200 rounded text-xs sm:text-sm text-gray-800"
               required
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-800">
+            <label className="block text-xs sm:text-sm font-medium text-gray-800">
               Email
             </label>
             <input
@@ -77,12 +79,12 @@ export default function Register() {
               name="email"
               value={form.email}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-200 rounded text-xs text-gray-800"
+              className="w-full p-2 sm:p-3 border border-gray-200 rounded text-xs sm:text-sm text-gray-800"
               required
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-800">
+            <label className="block text-xs sm:text-sm font-medium text-gray-800">
               Password
             </label>
             <input
@@ -90,12 +92,12 @@ export default function Register() {
               name="password"
               value={form.password}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-200 rounded text-xs text-gray-800"
+              className="w-full p-2 sm:p-3 border border-gray-200 rounded text-xs sm:text-sm text-gray-800"
               required
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-800">
+            <label className="block text-xs sm:text-sm font-medium text-gray-800">
               Confirm Password
             </label>
             <input
@@ -103,18 +105,18 @@ export default function Register() {
               name="confirmPassword"
               value={form.confirmPassword}
               onChange={handleChange}
-              className="w-full p-2 border border-gray-200 rounded text-xs text-gray-800"
+              className="w-full p-2 sm:p-3 border border-gray-200 rounded text-xs sm:text-sm text-gray-800"
               required
             />
           </div>
           <button
             type="submit"
-            className="bg-gray-800 text-white px-4 py-2 rounded mt-4 hover:bg-black text-xs"
+            className="bg-gray-800 text-white px-4 py-2 rounded mt-4 hover:bg-black text-xs sm:text-sm cursor-pointer"
           >
             Register
           </button>
         </form>
-        <p className="text-gray-600 text-xs mt-4 text-center">
+        <p className="text-gray-600 text-xs sm:text-sm mt-4 text-center">
           Already have an account?{" "}
           <Link href="/login" className="text-gray-800 underline">
             Login

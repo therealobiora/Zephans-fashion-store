@@ -6,19 +6,23 @@ import { useRouter } from "next/navigation";
 import { MdCancel } from "react-icons/md";
 
 export default function Cart() {
-  const { cart, updateQuantity, removeFromCart, getTotal, clearCart } = useCart();
+  const { cart, updateQuantity, removeFromCart, getTotal, clearCart } =
+    useCart();
   const router = useRouter();
 
   const handleCheckout = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
+      return;
+    }
     console.log("Navigating to checkout");
     router.push("/checkout");
   };
 
   return (
     <section className="w-[95vw] mx-auto py-10">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">
-        Your Cart
-      </h1>
+      <h1 className="text-2xl font-bold text-gray-800 mb-6">Your Cart</h1>
       {cart.length === 0 ? (
         <p className="text-gray-500 text-sm text-center py-10">
           Your cart is empty
@@ -41,7 +45,10 @@ export default function Cart() {
                 <h3 className="font-semibold text-xs text-gray-800">
                   {item.name}
                   {item.selectedSize && (
-                    <span className="text-gray-500"> ({item.selectedSize})</span>
+                    <span className="text-gray-500">
+                      {" "}
+                      ({item.selectedSize})
+                    </span>
                   )}
                 </h3>
                 <p className="text-gray-500 text-xs">

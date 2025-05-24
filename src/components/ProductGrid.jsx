@@ -107,7 +107,7 @@ export default function ProductGrid() {
                   />
                 </div>
                 <button
-                  className="absolute top-2 right-2 bg-white w-10 h-10 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10"
+                  className="absolute top-2 right-2 bg-white w-10 cursor-pointer h-10 flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-10"
                   onClick={(e) => handleAddToCart(product, e)}
                 >
                   <BsCart4 className="text-gray-800 text-xl" />
